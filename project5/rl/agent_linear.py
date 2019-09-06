@@ -79,15 +79,22 @@ def linear_q_learning(theta, current_state_vector, action_index, object_index,
     """
     # TODO Your code here
 
-    cur_q_value = (theta @ current_state_vector)[tuple2index(action_index, object_index)]
+    #print("theta shape ", theta.shape)
+    #print(" current state vector shape ", current_state_vector.shape)
+    #print("NUM objects ", NUM_OBJECTS, "  num actions  ", NUM_ACTIONS)
+
+    theta_idx = tuple2index(action_index, object_index)
+    cur_q_value = (theta @ current_state_vector)[theta_idx]
     max_q_value = 0 if terminal else np.max(theta @ next_state_vector)
     target = reward + GAMMA* max_q_value
 
-    del_theta = (target -
-    theta_idx = tuple2index(action_index, object_index)
+    del_theta = (target - cur_q_value)*current_state_vector.T
 
-    theta[theta_idx] = theta[theta_idx] + ALPHA * del_theta
-    theta = theta + ALPHA * (target - theta @ current_state_vector)*current_state_vector # TODO Your update here
+    #print(del_theta.shape, theta[theta_idx,:].shape)
+    #print(action_index, object_index, theta_idx)
+
+    theta[theta_idx, :] = theta[theta_idx, :] + ALPHA * del_theta
+    #theta = theta + ALPHA * (target - theta @ current_state_vector)*current_state_vector # TODO Your update here
 # pragma: coderesponse end
 
 
