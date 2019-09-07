@@ -44,10 +44,14 @@ def epsilon_greedy(state_vector, epsilon):
 
     if np.random.rand() < epsilon: # choose a random number with prob = epsilon
         # choose a random action
-        (action_index, object_index) = index2tuple(np.random.randint(low = 0, high= NUM_ACTIONS*NUM_OBJECTS))
+        (action_index, object_index) = (np.random.randint(low = 0, high= NUM_ACTIONS), np.random.randint(low = 0, high =NUM_OBJECTS))
     else:
         #choose greedy action with prob = 1-epsilon
-        (action_index, object_index) = index2tuple(np.argmax(theta @ state_vector)) # needs modification
+        #print("\n", NUM_ACTIONS, NUM_OBJECTS)
+        (x,y) = model( state_vector)
+        (action_index, object_index) = (x.max(0)[1], y.max(0)[1])
+
+        #(action_index, object_index) = model( state_vector)) # needs modification
 
     #action_index, object_index = None, None
     return (action_index, object_index)
@@ -89,7 +93,9 @@ def deep_q_learning(current_state_vector, action_index, object_index, reward,
     maxq_next = 1 / 2 * (q_values_action_next.max()
                          + q_values_object_next.max())
 
-    q_value_cur_state = model(current_state_vector)
+    q_value_vector = model(current_state_vector)
+    q_value_cur_state = (q_value_vector[0][action_index] + q_value_vector[1][object_index])*0.5
+    #print("***   ", type(q_value_cur_state))
 
     # TODO Your code here
 
