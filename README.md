@@ -15,3 +15,9 @@ Since the state observable to the player is described in text, we have to choose
 A naive approach is to create a map that assigns a unique index for each text description. 
 However, such approach becomes difficult to implement when the number of textual state descriptions are huge. 
 An alternative method is to use a bag-of-words representation derived from the text description.
+
+**Organization of the files:**
+
+1. **agent_tabular.py:** implement an agent using tabular Q-learning
+2. **agent_linear.py:** agent using Q-learning with linear approximation
+3. **agent_dqn.py:** agent using a deep Q-network
